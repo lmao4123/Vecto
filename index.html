@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vecto | Native Cross-Platform Software Ecosystem</title>
+    <style>
+        /* --- PREMIUM DESIGN SYSTEM (Inspired by Real Estate Layout) --- */
+        :root {
+            --bg-main: #060913;
+            --bg-card: #111827;
+            --bg-nav: rgba(15, 23, 42, 0.6);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --accent-green: #22c55e;
+            --accent-green-hover: #16a34a;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(17, 24, 39, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- BLURRED GRAPHIC ACCENTS (Behind Hero) --- */
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(0,0,0,0) 70%);
+            top: -200px;
+            right: -100px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            background-color: var(--bg-nav);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .logo span {
+            color: var(--accent-green);
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-btn {
+            background-color: var(--accent-green);
+            color: #000;
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        /* --- PREMIUM HERO SECTION --- */
+        .hero-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 80px 4% 60px 4%;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-left {
+            text-align: left;
+        }
+
+        .hero-left h1 {
+            font-size: 4.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+        }
+
+        .hero-left h1 span {
+            color: var(--accent-green);
+        }
+
+        .hero-left p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin-bottom: 40px;
+        }
+
+        /* --- SEARCH ARCHITECTURE BAR --- */
+        .search-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 8px 8px 8px 24px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            max-width: 540px;
+            backdrop-filter: blur(8px);
+        }
+
+        .search-container input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+
+        .search-container input::placeholder {
+            color: #475569;
+        }
+
+        .search-btn {
+            background-color: var(--accent-green);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- HERO FLOATING LIVE DASHBOARD CARD (Right Side) --- */
+        .hero-right {
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .smart-download-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        /* Overlapping Status Indicator badge inspired by image pricing tag */
+        .floating-status-tag {
+            position: absolute;
+            top: -15px;
+            right: 25px;
+            background: #fff;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            text-align: right;
+        }
+
+        .detected-os-badge {
+            display: inline-block;
+            background-color: rgba(56, 189, 248, 0.08);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+
+        .btn-main {
+            background-color: var(--text-main);
+            color: #000;
+            padding: 16px 0;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn-main:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .sub-download-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* --- TRUST & ECOSYSTEM NUMBERS SECTION --- */
+        .stats-divider {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(255,255,255,0.01);
+            padding: 40px 0;
+            margin: 40px 0 60px 0;
+        }
+
+        .stats-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 4%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: left;
+        }
+
+        .stat-item h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* --- INTERACTIVE TABS FILTER --- */
+        .tabs-section-header {
+            max-width: 1300px;
+            margin: 0 auto 30px auto;
+            padding: 0 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.03);
+            padding: 6px;
+            border-radius: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 22px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background-color: var(--text-main);
+            color: #000;
+        }
+
+        /* --- APP CONTAINER GRID (LEFT INTENTIONS BLANK) --- */
+        .app-grid {
+            max-width: 1300px;
+            margin: 0 auto 100px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 30px;
+            padding: 0 4%;
+            min-height: 200px;
+        }
+
+        /* --- REUSABLE APP CARD STYLES FOR MANUAL REPOPULATION --- */
+        .app-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .app-card.hidden {
+            display: none !important;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #0a0e1a;
+            border-top: 1px solid var(--border-color);
+            padding: 50px 4%;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE STRUCTURAL MEDIA QUERIES --- */
+        @media (max-width: 1024px) {
+            .hero-container { grid-template-columns: 1fr; gap: 60px; }
+            .hero-left { text-align: center; }
+            .hero-left p { margin: 0 auto 40px auto; }
+            .search-container { margin: 0 auto; }
+            .hero-right { justify-content: center; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+            .tabs-section-header { flex-direction: column; align-items: center; gap: 25px; text-align: center; }
+        }
+
+        @media (max-width: 640px) {
+            .hero-left h1 { font-size: 2.8rem; }
+            .stats-grid { grid-template-columns: 1fr; text-align: center; }
+            .tabs-container { flex-direction: column; width: 100%; }
+            .tab-btn { text-align: center; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <nav>
+        <a href="#" class="logo">Ever<span>Vecto</span></a>
+        <div class="nav-links">
+            <a href="#apps">Ecosystem</a>
+            <a href="#">Developer Node</a>
+            <a href="#">Security Matrix</a>
+        </div>
+        <a href="#apps" class="nav-btn">Get Started</a>
+    </nav>
+
+    <section class="hero-container">
+        <div class="hero-left">
+            <h1>Find your <span>software</span> with ease and confidence</h1>
+            <p>Explore high-performance, native utilities engineered for cross-platform systems. Zero configurations, absolute execution tracking.</p>
+            
+            <div class="search-container">
+                <input type="text" placeholder="Search applications or dependencies...">
+                <button class="search-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="smart-download-card">
+                <div class="floating-status-tag">
+                    <div style="font-size: 0.65rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Latest Release</div>
+                    <div style="font-size: 1.05rem; font-weight: 800;">v2.4.0-Stable</div>
+                </div>
+
+                <span class="detected-os-badge" id="os-badge">Detecting architecture topology...</span>
+                <h2 style="margin-bottom: 8px; font-size: 1.5rem; font-weight: 700;">Get Vecto Central Core</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
+                    Access your secure production links directly from verified file repositories.
+                </p>
+                <a href="https://www.mediafire.com" target="_blank" class="btn-main" id="dynamic-download-btn">
+                    <span>Initialize Hub Download</span>
+                </a>
+                <div class="sub-download-info" id="file-info">Checking device compatibility...</div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="tabs-section-header" id="apps">
+        <h2 class="section-title">Ecosystem Applications</h2>
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="filterApps('all')">Home View</button>
+            <button class="tab-btn" onclick="filterApps('desktop')">Desktop Apps (PC)</button>
+            <button class="tab-btn" onclick="filterApps('android')">Android Apps</button>
+        </div>
+    </div>
+    
+    <main class="app-grid">
+
+   <!-- PREMIUM ANDROID APP CARD -->
+<div class="app-card" data-platform="android">
+    <div>
+        <div class="app-header">
+            <div class="app-icon" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; font-size: 1.5rem;">📱</div>
+            <div>
+                <div class="app-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 2px;">BoltChat</div>
+                <span class="app-tag" style="font-size: 0.75rem; background: rgba(34, 197, 94, 0.1); color: var(--accent-green); padding: 3px 10px; border-radius: 20px; font-weight: 600;">Category</span>
+            </div>
+        </div>
+        <p class="app-desc" style="color: var(--text-muted); font-size: 0.95rem; margin: 15px 0 20px 0; line-height: 1.5;">A Sleek, Modern Messenger for Real-Time Connection.
+
+This messenger provides a fast, secure, and intuitive chatting experience. Designed with a clean interface and optimized performance, it offers everything you need to connect with friends instantly.
+
+Key Features:
+
+⚡ Real-Time Messaging: Enjoy seamless conversations with instant message delivery and read receipts, powered by a fast and reliable cloud infrastructure.
+
+👤 Unique Usernames: Find and add friends easily using their unique usernames. Your profile is distinct and easy to share.
+
+🔔 Real-Time Friend Requests: Manage your contacts with a real-time friend request system. See incoming invites instantly and build your network.
+
+🔒 Secure Accounts: Built with robust email and password authentication to keep your conversations and personal information private.
+
+📱 Clean UI: Navigate effortlessly through a minimalist design focused entirely on your conversations.</p>
+
+        <div class="platform-badges" style="margin-bottom: 5px;">
+            <span class="platform-badge" style="font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.04); color: #cbd5e1; font-weight: 500; border: 1px solid var(--border-color);">Android APK</span>
+        </div>
+    </div>
+    <div class="download-actions-wrapper" style="margin-top: 20px;">
+        <a href="https://www.mediafire.com/file/ehlk5j72an891zd/BoltChat.apk/file" target="_blank" class="btn-secondary" style="display: block; width: 100%; text-align: center; background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.2); color: var(--accent-green); padding: 14px 0; font-weight: 700; font-size: 0.95rem; border-radius: 10px; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.background='var(--accent-green)'; this.style.color='#000'" onmouseout="this.style.background='rgba(34, 197, 94, 0.08)'; this.style.color='var(--accent-green)'">
+            Download for Android (.apk)
+        </a>
+    </div>
+</div>
+
+        </main>
+
+    <footer>
+        <p>&copy; 2026 Vecto Technologies Group Inc. All Rights Reserved.</p>
+        <p style="font-size: 0.8rem; margin-top: 12px; color: #334155;">All secure execution tabs redirect transparently to assigned MediaFire assets.</p>
+    </footer>
+
+    <script>
+        function filterApps(category) {
+            // Update Active Tab Class UI
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter cards strictly by platform type attribute
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach(card => {
+                const cardPlatform = card.getAttribute('data-platform');
+                if (category === 'all' || cardPlatform === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // AUTOMATED SYSTEM PLATFORM TOPOLOGY DETECTOR
+        document.addEventListener("DOMContentLoaded", function() {
+            const badge = document.getElementById("os-badge");
+            const btn = document.getElementById("dynamic-download-btn");
+            const fileInfo = document.getElementById("file-info");
+            
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            let osName = "your Device";
+            let downloadLink = "https://www.mediafire.com"; 
+            let fileDetails = "Opens Vecto Shared MediaFire Directory Folder";
+
+            if (userAgent.indexOf("Win") !== -1) {
+                osName = "Windows Architecture";
+                downloadLink = "https://www.mediafire.com/file/YOUR_MAIN_WIN_HUB_KEY/file"; 
+                fileDetails = "Launches Windows Setup engine on MediaFire host";
+            } 
+            else if (/Android/i.test(userAgent)) {
+                osName = "Android Mobile";
+                downloadLink = "https://www.mediafire.com/file/YOUR_MAIN_ANDROID_HUB_KEY/file"; 
+                fileDetails = "Launches Android Bundle (.apk) on MediaFire host";
+            }
+
+            badge.innerText = "🟢 System Topology: " + osName;
+            btn.querySelector("span").innerText = "Download Core for " + (userAgent.indexOf("Win") !== -1 ? "Windows" : /Android/i.test(userAgent) ? "Android" : "Device");
+            btn.href = downloadLink;
+            fileInfo.innerText = fileDetails;
+        });
+    </script>
+</body>
+</html>
